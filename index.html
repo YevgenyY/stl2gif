@@ -39,7 +39,7 @@
 	<body>
 		<div id="info">
 			<a href="http://threejs.org" target="_blank">three.js</a> -
-			STL loader test by <a href="https://github.com/aleeper">aleeper</a>. PR2 head from <a href="http://www.ros.org/wiki/pr2_description">www.ros.org</a>
+			STL loader test by <a href="https://github.com/aleeper">aleeper</a>, capturing to animated GIF by <a href="https://github.com/yevgenyy">YevgenyY</a>.
 		</div>
 
 		<script src="js/three.js"></script>
@@ -74,8 +74,6 @@
 			  workers: 4,
 				workerScript: 'js/gif.worker.js',
 			  quality: 10,
-				width: 600,
-				height: 337
 		  })
 
 	    gif.on('start', function() {
@@ -147,18 +145,19 @@
 				// ASCII file
 				var loader = new THREE.STLLoader();
 
-				loader.load( './models/bear.stl', function ( geometry ) {
+				loader.load( './models/fox.stl', function ( geometry ) {
 
 					//var material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
 					var material = new THREE.MeshPhongMaterial( { color: 0xff7400, specular: 0x111111, shininess: 200 } );
 					var mesh = new THREE.Mesh( geometry, material );
 
 					//mesh.position.set( 0, - 0.25, 0.6 );
-					mesh.position.set( 0, 0, 0 );
+					mesh.position.set( 0, -0.40, 0 );
 					mesh.rotation.set( -0x08, 0, 0 );
+					//mesh.rotation.set( 0, 0, 0 );
 					//mesh.rotation.set( 0, - Math.PI / 2, 10 );
 					//mesh.scale.set( 0.5, 0.5, 0.5 );
-					mesh.scale.set( 0.005, 0.005, 0.005 );
+					mesh.scale.set( 0.02, 0.02, 0.02 );
 
 					//mesh.castShadow = true;
 					mesh.receiveShadow = true;
@@ -199,6 +198,7 @@
 				renderer.setClearColor( scene.fog.color );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
+				gif.setOptions(width=window.innerWidth, height=window.innerHeight);
 
 				renderer.gammaInput = true;
 				renderer.gammaOutput = true;
@@ -215,7 +215,7 @@
 
 				// encoder
 
-				//gif.addFrame(renderer.domElement, {delay: 300});
+				//gif.addFrame(renderer.domElement, {delay: 100});
 
 				//
 
@@ -264,11 +264,11 @@
 				var stopFlag = timer - timerStop;
 
 				if ( timerStop == INIT_TIMER )
-					timerStop = timer + 12;
+					timerStop = timer + 1.5;
 				else if ( stopFlag < 0 && timerStop != STOP_TIMER )
 				{
 					var context = renderer.domElement.getContext("experimental-webgl", {preserveDrawingBuffer: true});
-					gif.addFrame(renderer.domElement, {delay: 300});
+					gif.addFrame(renderer.domElement, {delay: 100});
 
 				} else if (timerStop != STOP_TIMER)
 				{
@@ -286,7 +286,7 @@
 			}
 
 			function render() {
-				var timer = Date.now() * 0.0005;
+				var timer = Date.now() * 0.0025;
 
 				camera.position.x = Math.cos( timer ) * 3;
 				camera.position.z = Math.sin( timer ) * 3;
